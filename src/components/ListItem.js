@@ -1,20 +1,19 @@
-import React, { Component } from "react";
+import React, { useEffect } from "react";
 
-class ListItem extends Component {
-  componentWillUnmount() {
-    console.log("ListItem will unmount");
-  }
+function ListItem(props) {
+  // Faz algo toda vez que o componente vai ser removido do DOM
+  // Equivalente ao componentWillUnmount
+  // A funçāo retornada pela callback do useEffect costuma ser chamada de cleanup function
+  useEffect(() => () => console.log("ListItem will be unmounted"));
 
-  render() {
-    return (
-      <li>
-        <span>{this.props.children}</span>
-        <button name={this.props.index} onClick={this.props.handleDeleteClick}>
-          Delete
-        </button>
-      </li>
-    );
-  }
+  return (
+    <li>
+      <span>{props.children}</span>
+      <button name={props.index} onClick={props.handleDeleteClick}>
+        Delete
+      </button>
+    </li>
+  );
 }
 
 export default ListItem;

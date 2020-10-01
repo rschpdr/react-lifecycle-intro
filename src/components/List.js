@@ -1,54 +1,52 @@
-import React, { Component } from "react";
+import React, { useState, useEffect } from "react";
 import ListItem from "./ListItem";
 
-class List extends Component {
-  state = {
-    campuses: [],
-  };
+function List(props) {
+  const [campuses, setCampuses] = useState([]);
 
-  componentDidMount() {
-    console.log("List is mounted!");
-    this.setState({ campuses: [...this.props.campuses] });
-  }
+  // Faz algo assim que o componente é renderizado
+  // Equivalente ao componentDidMount
+  useEffect(() => {
+    setCampuses([...props.campuses]);
+    console.log("List was mounted!");
+  }, [props.campuses]);
 
-  componentDidUpdate(prevProps, prevState) {
+  // Faz algo toda vez que o state for alterado
+  // Equivalente ao componentDidUpdate
+  useEffect(() => {
     console.log("List was updated!");
-    console.log(prevProps);
-    console.log("prev state => ", prevState);
-    if (prevState.campuses !== this.state.campuses) {
-    }
-  }
+    console.log(campuses);
+  }, [campuses]);
 
-  handleClick = () => {
-    this.setState((prevState) => ({ campuses: prevState.campuses.sort() }));
+  // Faz algo toda vez que as props forem alteradas
+  // Equivalente ao componentDidUpdate
+  useEffect(() => {
+    console.log("List had its props updated!");
+  }, [props]);
+
+  const handleClick = () => {
+    setCampuses((prevState) => [...prevState.sort()]);
   };
 
-  handleDeleteClick = (event) => {
-    console.log(event.currentTarget.name);
-    const tempArray = [...this.state.campuses];
+  const handleDeleteClick = (event) => {
+    const tempArray = [...campuses];
     tempArray.splice(event.currentTarget.name, 1);
 
-    this.setState({ campuses: [...tempArray] });
+    setCampuses([...tempArray]);
   };
 
-  render() {
-    return (
-      <div>
-        <ul>
-          {this.state.campuses.map((campus, i) => (
-            <ListItem
-              handleDeleteClick={this.handleDeleteClick}
-              index={i}
-              key={i}
-            >
-              {campus}
-            </ListItem>
-          ))}
-        </ul>
-        <button onClick={this.handleClick}>Sort!</button>
-      </div>
-    );
-  }
+  return (
+    <div>
+      <ul>
+        {campuses.map((campus, i) => (
+          <ListItem handleDeleteClick={handleDeleteClick} index={i} key={i}>
+            {campus}
+          </ListItem>
+        ))}
+      </ul>
+      <button onClick={handleClick}>Sort!</button>
+    </div>
+  );
 }
 
 export default List;
