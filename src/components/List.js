@@ -6,11 +6,15 @@ class List extends Component {
     campuses: [],
   };
 
+  // Todos os lifecycle methods são herdados da classe Component que estamos extendendo, portando só podem ser usados em componentes de classe
+
+  // Este método é executado automaticamente quando o componente termina de ser renderizado pela primeira vez no navegador
   componentDidMount() {
     console.log("List is mounted!");
     this.setState({ campuses: [...this.props.campuses] });
   }
 
+  // Este método é executado automaticamente toda vez que ocorre uma re-renderizaçāo, ou seja, em cada alteraçāo no state ou nas props.
   componentDidUpdate(prevProps, prevState) {
     console.log("List was updated!");
     console.log(prevProps);
@@ -19,10 +23,12 @@ class List extends Component {
     }
   }
 
+  // Ordena alfabeticamente a lista de campus quando o usuário clicar no botão "Sort!"
   handleClick = () => {
     this.setState((prevState) => ({ campuses: prevState.campuses.sort() }));
   };
 
+  // Deleta o campus da lista
   handleDeleteClick = (event) => {
     console.log(event.currentTarget.name);
     const tempArray = [...this.state.campuses];
